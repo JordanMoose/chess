@@ -40,6 +40,20 @@ time_2 = 0.0
 # who wins the game (0: game not over, 1: player 1 wins, 2: player 2 wins)
 winner = 0
 
+class Player(object):
+
+    def __init__(self, color):
+        self.color = color
+        self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
+                            "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
+
+class Piece(object):
+
+    def __init__(self, x_pos, y_pos, movement):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.movement = movement
+
 
 
 ############
