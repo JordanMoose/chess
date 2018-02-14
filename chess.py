@@ -67,6 +67,18 @@ class Player(object):
         self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
                             "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
 
+class Space(object):
+    """ A space on the board. It may be inhabited by a Piece. """
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.piece = None
+
+    def __repr__(self):
+        """ A space is represented by a letter (A-H) and a number (1-8). """
+        return '{0}{1}'.format(chr(self.x + 96), self.y)
+
 
 class Piece(object):
     """ Pieces move to different spaces and capture opposing pieces. """
