@@ -59,6 +59,7 @@ pawn_moves = [(0,1)]
 
 
 class Player(object):
+    """ There are two players, black and white. Each has a certain set of pieces left. """
 
     def __init__(self, color, turn):
         self.color = color
@@ -68,6 +69,7 @@ class Player(object):
 
 
 class Piece(object):
+    """ Pieces move to different spaces and capture opposing pieces. """
 
     def __init__(self, color, name, img, x_pos, y_pos):
         self.color = color
@@ -80,8 +82,9 @@ class Piece(object):
         return self.name
 
 
-# pieces that can only move a finite number of spaces each turn
+
 class Finite(Piece):
+    """ A Finite is a Piece that can only move a finite number of spaces each turn. """
 
     def __init__(self, color, name, img, x_pos, y_pos, movement):
         super().__init__(color, name, img, x_pos, y_pos)
@@ -90,6 +93,8 @@ class Finite(Piece):
 
 
 class Pawn(Finite):
+    """ The pawn is the most unique character in chess, having different mechanics for capturing and moving
+    and being able to move twice on its first move. """
 
     def __init__(self, color, img, x_pos, y_pos):
         super().__init__(color, "pawn", img, x_pos, y_pos, pawn_moves)
