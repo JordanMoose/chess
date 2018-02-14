@@ -65,6 +65,7 @@ class Player(object):
         self.color = color
         # is it currently this player's turn?
         self.turn = turn
+        self.opponent = None
         self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
                             "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
 
@@ -72,6 +73,8 @@ class Player(object):
         """ The player takes their turn, moving PIECE to SPACE and/or capturing an opposing piece if possible. """
         assert piece.player == self, "This is not your piece."
         if piece.valid_move(space):
+            if space.piece.player == self.opponent:
+                piece.capture(space.piece)
             piece.move(space)
 
     def __repr__(self):
@@ -142,6 +145,8 @@ class Pawn(Finite):
 
 white = Player("white", True)
 black = Player("black", False)
+white.opponent = black
+black.opponent = white
 w_king = Finite(white, "king", w_king_img, 5, 1, king_moves)
 
 ############
