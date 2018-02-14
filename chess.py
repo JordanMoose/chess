@@ -68,6 +68,12 @@ class Player(object):
         self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
                             "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
 
+    def take_turn(self, piece, space):
+        """ The player takes their turn, moving PIECE to SPACE and/or capturing an opposing piece if possible. """
+        assert piece.player == self, "This is not your piece."
+        if piece.valid_move(space):
+            piece.move(space)
+
     def __repr__(self):
         return self.color
 
