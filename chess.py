@@ -77,6 +77,18 @@ class Piece(object):
         # the movement attribute is a list of two-value tuples that stores the possible x and y moves for a piece
         self.movement = movement
 
+    def __repr__(self):
+        return self.name
+
+class Pawn(Piece):
+
+    def __init__(self, color, img, x_pos, y_pos):
+        super().__init__(color, "pawn", img, x_pos, y_pos, pawn_moves)
+        self.capture_moves = [(-1,1), (1,1)]
+        self.first_moves = self.movement + [(0,2)]
+        # has the pawn made its first move yet? (to determine if it can move 2 spaces)
+        self.moved = False
+
 
 white = Player("white", True)
 black = Player("black", False)
