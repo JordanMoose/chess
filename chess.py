@@ -80,7 +80,7 @@ class Player(object):
         """ The player takes their turn, moving PIECE to SPACE and/or capturing an opposing piece if possible. """
         assert piece.player == self, "This is not your piece."
         if piece.valid_move(space):
-            if space.piece.player == self.opponent:
+            if space.piece and space.piece.player == self.opponent:
                 piece.capture(space.piece)
             piece.move(space)
 
@@ -147,8 +147,8 @@ class Pawn(Finite):
     """ The pawn is the most unique character in chess, having different mechanics for capturing and moving
     and being able to move twice on its first move. """
 
-    def __init__(self, player, img, x_pos, y_pos):
-        super().__init__(player, "pawn", img, x_pos, y_pos, pawn_moves)
+    def __init__(self, player, img, x_pos, y_pos, movement):
+        super().__init__(player, "pawn", img, x_pos, y_pos, movement)
         if player.name == "white":
             self.capture_moves = w_pawn_capture_moves
             first_moves = w_pawn_first_moves
@@ -158,6 +158,13 @@ class Pawn(Finite):
         self.first_moves = self.movement + first_moves
         # has the pawn made its first move yet? (to determine if it can move 2 spaces)
         self.moved = False
+
+    def valid_move(self, space):
+        """ A pawn's valid moves depend on whether or not it is capturing another piece. """
+        move = (space.x - self.space.x, space.y - self.space.y) in self.movement
+        if space.piece and space.piece.player == self.player.opponent:
+            capture = (space.x - self.space.x, space.y - self.space.y) in self.capture_moves
+        return move or capture
 
 
 white = Player("white", True)
