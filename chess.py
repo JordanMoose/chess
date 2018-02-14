@@ -159,6 +159,10 @@ class Pawn(Finite):
         # has the pawn made its first move yet? (to determine if it can move 2 spaces)
         self.moved = False
 
+    def move(self, space):
+        super().move(space)
+        self.moved = True
+
     def valid_move(self, space):
         """ A pawn's valid moves depend on whether or not it is capturing another piece. """
         move = (space.x - self.space.x, space.y - self.space.y) in self.movement
