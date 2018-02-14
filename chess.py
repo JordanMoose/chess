@@ -78,9 +78,12 @@ class Piece(object):
         self.x_pos = x_pos
         self.y_pos = y_pos
 
+    def move(self, space):
+        """ Move the piece to the given SPACE. """
+        self.x_pos, self.y_pos = space[0], space[1]
+
     def __repr__(self):
         return self.name
-
 
 
 class Finite(Piece):
