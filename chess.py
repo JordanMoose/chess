@@ -87,18 +87,20 @@ class Piece(object):
         self.color = color
         self.name = name
         self.img = img
-        # x_pos and y_pos are either two numbers or None (if the piece has been captured)
-        self.x_pos = x_pos
-        self.y_pos = y_pos
+        # the space attribute is either a Space object or None (if the piece has been captured)
+        self.space = Space(x_pos, y_pos)
+        self.space.piece = self
         self.captured = False
 
     def move(self, space):
         """ Move the piece to the given SPACE. """
-        self.x_pos, self.y_pos = space[0], space[1]
+        self.space.piece = None
+        self.space = space
+        space.piece = self
 
     def capture(self, opponent):
         """ Capture the opposing piece OPPONENT, removing it from its space and the opposing player's pieces_left. """
-        opponent.x_pos = opponent.y_pos = None
+        opponent.space = None
         opponent.captured = True
 
     def __repr__(self):
