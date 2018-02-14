@@ -63,6 +63,7 @@ class Player(object):
 
     def __init__(self, color, turn):
         self.color = color
+        # is it currently this player's turn?
         self.turn = turn
         self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
                             "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
@@ -106,6 +107,7 @@ class Piece(object):
         """ Capture the opposing piece OPPONENT, removing it from its space and the opposing player's pieces_left. """
         opponent.space = None
         opponent.captured = True
+        opponent.player.pieces_left -= opponent.name
 
     def __repr__(self):
         return '{0} {1}'.format(self.player.color, self.name)
