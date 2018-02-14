@@ -129,7 +129,7 @@ class Piece(object):
     def valid_move(self, space):
         """ Check if the move to SPACE is a valid move for this piece. """
         assert (space.x - self.space.x, space.y - self.space.y) in self.movement, "not in range of movements"
-        friendly = space.piece and space.piece.player == self
+        friendly = space.piece and space.piece.player == self.player
         assert not friendly, "friendly piece in that space"
         # any space in line of movement has a piece (except knight)
 
@@ -154,20 +154,24 @@ class Pawn(Finite):
         super().__init__(player, "pawn", img, x_pos, y_pos, movement)
         if player.name == "white":
             self.capture_moves = w_pawn_capture_moves
-            first_moves = w_pawn_first_moves
+            self.first_moves = w_pawn_first_moves
         else:
             self.capture_moves = b_pawn_capture_moves
-            first_moves = b_pawn_first_moves
-        self.movement += first_moves
+            self.first_moves = b_pawn_first_moves
+        self.movement += self.first_moves
         # has the pawn made its first move yet? (to determine if it can move 2 spaces)
         self.moved = False
 
     def move(self, space):
         super().move(space)
         self.moved = True
+        self.movement -= self.first_moves
 
     def valid_move(self, space):
         """ A pawn's valid moves depend on whether or not it is capturing another piece. """
+        if space.piece and space.piece.player == self.player.opponent:
+            assert (space.x - self.space.x, space.y - self.space.y) in self.capture_moves
+        super().valid_move(space)
 
 
 white = Player("white", True)
