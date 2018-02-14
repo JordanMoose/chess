@@ -55,8 +55,9 @@ b_pawn_img = pygame.image.load('data/b_pawn.png').convert_alpha()
 
 class Player(object):
 
-    def __init__(self, color):
+    def __init__(self, color, turn):
         self.color = color
+        self.turn = turn
         self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
                             "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
 
@@ -73,8 +74,8 @@ class Piece(object):
         self.movement = movement
 
 
-white = Player("white")
-black = Player("black")
+white = Player("white", True)
+black = Player("black", False)
 w_king = Piece("white", "king", w_king_img, 5, 1, [(0,1), (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1)])
 
 ############
