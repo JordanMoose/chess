@@ -51,9 +51,10 @@ class Player(object):
 
 class Piece(object):
 
-    def __init__(self, color, name, x_pos, y_pos, movement):
+    def __init__(self, color, name, img, x_pos, y_pos, movement):
         self.color = color
         self.name = name
+        self.img = img
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.movement = movement
