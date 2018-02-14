@@ -39,7 +39,19 @@ time_w = 0.0
 time_b = 0.0
 # who wins the game (0: game not over, 1: white wins, 2: black wins)
 winner = 0
-
+# load piece images
+w_king_img = pygame.image.load('data/w_king.png').convert_alpha()
+w_queen_img = pygame.image.load('data/w_queen.png').convert_alpha()
+w_rook_img = pygame.image.load('data/w_rook.png').convert_alpha()
+w_bishop_img = pygame.image.load('data/w_bishop.png').convert_alpha()
+w_knight_img = pygame.image.load('data/w_knight.png').convert_alpha()
+w_pawn_img = pygame.image.load('data/w_pawn.png').convert_alpha()
+b_king_img = pygame.image.load('data/b_king.png').convert_alpha()
+b_queen_img = pygame.image.load('data/b_queen.png').convert_alpha()
+b_rook_img = pygame.image.load('data/b_rook.png').convert_alpha()
+b_bishop_img = pygame.image.load('data/b_bishop.png').convert_alpha()
+b_knight_img = pygame.image.load('data/b_knight.png').convert_alpha()
+b_pawn_img = pygame.image.load('data/b_pawn.png').convert_alpha()
 
 class Player(object):
 
@@ -58,6 +70,7 @@ class Piece(object):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.movement = movement
+
 
 white = Player("white")
 black = Player("black")
