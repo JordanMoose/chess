@@ -79,10 +79,10 @@ class Player(object):
     def take_turn(self, piece, space):
         """ The player takes their turn, moving PIECE to SPACE and/or capturing an opposing piece if possible. """
         assert piece.player == self, "This is not your piece."
-        if piece.valid_move(space):
-            if space.piece and space.piece.player == self.opponent:
-                piece.capture(space.piece)
-            piece.move(space)
+        piece.valid_move(space)
+        if space.piece:
+            piece.capture(space.piece)
+        piece.move(space)
 
     def __repr__(self):
         return self.color
@@ -128,7 +128,10 @@ class Piece(object):
 
     def valid_move(self, space):
         """ Check if the move to SPACE is a valid move for this piece. """
-        return (space.x - self.space.x, space.y - self.space.y) in self.movement
+        assert (space.x - self.space.x, space.y - self.space.y) in self.movement, "not in range of movements"
+        friendly = space.piece and space.piece.player == self
+        assert not friendly, "friendly piece in that space"
+        # any space in line of movement has a piece (except knight)
 
     def __repr__(self):
         return '{0} {1}'.format(self.player.color, self.name)
@@ -155,7 +158,7 @@ class Pawn(Finite):
         else:
             self.capture_moves = b_pawn_capture_moves
             first_moves = b_pawn_first_moves
-        self.first_moves = self.movement + first_moves
+        self.movement += first_moves
         # has the pawn made its first move yet? (to determine if it can move 2 spaces)
         self.moved = False
 
@@ -165,10 +168,6 @@ class Pawn(Finite):
 
     def valid_move(self, space):
         """ A pawn's valid moves depend on whether or not it is capturing another piece. """
-        move = (space.x - self.space.x, space.y - self.space.y) in self.movement
-        if space.piece and space.piece.player == self.player.opponent:
-            capture = (space.x - self.space.x, space.y - self.space.y) in self.capture_moves
-        return move or capture
 
 
 white = Player("white", True)
