@@ -69,7 +69,7 @@ class Player(object):
 
     def __repr__(self):
         return self.color
-    
+
 
 class Space(object):
     """ A space on the board. It may be inhabited by a Piece. """
@@ -87,8 +87,8 @@ class Space(object):
 class Piece(object):
     """ Pieces move to different spaces and capture opposing pieces. """
 
-    def __init__(self, color, name, img, x_pos, y_pos):
-        self.color = color
+    def __init__(self, player, name, img, x_pos, y_pos):
+        self.player = player
         self.name = name
         self.img = img
         # the space attribute is either a Space object or None (if the piece has been captured)
@@ -108,7 +108,7 @@ class Piece(object):
         opponent.captured = True
 
     def __repr__(self):
-        return self.name
+        return '{0} {1}'.format(self.player.color, self.name)
 
 
 class Finite(Piece):
@@ -134,7 +134,7 @@ class Pawn(Finite):
 
 white = Player("white", True)
 black = Player("black", False)
-w_king = Finite("white", "king", w_king_img, 5, 1, king_moves)
+w_king = Finite(white, "king", w_king_img, 5, 1, king_moves)
 
 ############
 # Gameplay #
