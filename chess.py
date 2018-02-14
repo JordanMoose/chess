@@ -146,6 +146,13 @@ class Finite(Piece):
         self.movement = movement
 
 
+class King(Finite):
+    """ Kings can move one space straight or diagonally in any direction. """
+
+    def __init__(self, player, name, img, x_pos, y_pos):
+        super().__init__(player, name, img, x_pos, y_pos, king_moves)
+
+
 class Pawn(Finite):
     """ The pawn is the most unique character in chess, having different mechanics for capturing and moving
     and being able to move twice on its first move. """
@@ -178,7 +185,6 @@ white = Player("white", True)
 black = Player("black", False)
 white.opponent = black
 black.opponent = white
-w_king = Finite(white, "king", w_king_img, 5, 1, king_moves)
 
 ############
 # Gameplay #
