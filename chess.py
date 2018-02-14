@@ -37,6 +37,8 @@ tot_time_b = 0.0
 time_w = 0.0
 # black's current turn playtime
 time_b = 0.0
+# the board's dimensions
+dimensions = (8,8)
 # who wins the game (0: game not over, 1: white wins, 2: black wins)
 winner = 0
 # load piece images
@@ -55,7 +57,12 @@ b_pawn_img = pygame.image.load('data/b_pawn.png').convert_alpha()
 # store movements for pieces that can only move a finite number of spaces each turn
 king_moves = [(0,1), (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1)]
 knight_moves = [(1,2), (2,1), (2,-1), (1,-2), (-1,-2), (-2,-1), (-2,1), (-1,2)]
-pawn_moves = [(0,1)]
+w_pawn_moves = [(0,1)]
+b_pawn_moves = [(0,-1)]
+w_pawn_capture_moves = [(-1,1), (1,1)]
+b_pawn_capture_moves = [(-1,-1), (1,-1)]
+w_pawn_first_moves = [(0, 2)]
+b_pawn_first_moves = [(0,-2)]
 
 
 class Player(object):
@@ -121,7 +128,7 @@ class Piece(object):
 
     def valid_move(self, space):
         """ Check if the move to SPACE is a valid move for this piece. """
-
+        if space.x
 
     def __repr__(self):
         return '{0} {1}'.format(self.player.color, self.name)
@@ -130,8 +137,8 @@ class Piece(object):
 class Finite(Piece):
     """ A Finite is a Piece that can only move a finite number of spaces each turn. """
 
-    def __init__(self, color, name, img, x_pos, y_pos, movement):
-        super().__init__(color, name, img, x_pos, y_pos)
+    def __init__(self, player, name, img, x_pos, y_pos, movement):
+        super().__init__(player, name, img, x_pos, y_pos)
         # the movement attribute is a list of two-value tuples that stores the possible x and y moves for a piece
         self.movement = movement
 
@@ -140,10 +147,15 @@ class Pawn(Finite):
     """ The pawn is the most unique character in chess, having different mechanics for capturing and moving
     and being able to move twice on its first move. """
 
-    def __init__(self, color, img, x_pos, y_pos):
-        super().__init__(color, "pawn", img, x_pos, y_pos, pawn_moves)
-        self.capture_moves = [(-1,1), (1,1)]
-        self.first_moves = self.movement + [(0,2)]
+    def __init__(self, player, img, x_pos, y_pos):
+        super().__init__(player, "pawn", img, x_pos, y_pos, pawn_moves)
+        if player.name == "white":
+            self.capture_moves = w_pawn_capture_moves
+            first_moves = w_pawn_first_moves
+        else:
+            self.capture_moves = b_pawn_capture_moves
+            first_moves = b_pawn_first_moves
+        self.first_moves = self.movement + first_moves
         # has the pawn made its first move yet? (to determine if it can move 2 spaces)
         self.moved = False
 
