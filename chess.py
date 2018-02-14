@@ -69,11 +69,13 @@ class Piece(object):
         self.img = img
         self.x_pos = x_pos
         self.y_pos = y_pos
+        # the movement attribute is a list of two-value tuples that stores the possible x and y moves for a piece
         self.movement = movement
 
 
 white = Player("white")
 black = Player("black")
+w_king = Piece("white", "king", w_king_img, 5, 1, [(0,1), (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1)])
 
 ############
 # Gameplay #
