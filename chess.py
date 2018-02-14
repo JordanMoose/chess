@@ -52,6 +52,10 @@ b_rook_img = pygame.image.load('data/b_rook.png').convert_alpha()
 b_bishop_img = pygame.image.load('data/b_bishop.png').convert_alpha()
 b_knight_img = pygame.image.load('data/b_knight.png').convert_alpha()
 b_pawn_img = pygame.image.load('data/b_pawn.png').convert_alpha()
+# store movements for pieces that can only move a finite number of spaces each turn
+king_moves = [(0,1), (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1)]
+knight_moves = [(1,2), (2,1), (2,-1), (1,-2), (-1,-2), (-2,-1), (-2,1), (-1,2)]
+pawn_moves = [(0,1)]
 
 class Player(object):
 
@@ -76,7 +80,7 @@ class Piece(object):
 
 white = Player("white", True)
 black = Player("black", False)
-w_king = Piece("white", "king", w_king_img, 5, 1, [(0,1), (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1)])
+w_king = Piece("white", "king", w_king_img, 5, 1, king_moves)
 
 ############
 # Gameplay #
@@ -92,6 +96,6 @@ while running:
             if event.type == pygame.QUIT:
                 running = False
 
-            elif event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
