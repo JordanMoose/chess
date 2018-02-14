@@ -67,6 +67,10 @@ class Player(object):
         self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
                             "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
 
+    def __repr__(self):
+        return self.color
+    
+
 class Space(object):
     """ A space on the board. It may be inhabited by a Piece. """
 
