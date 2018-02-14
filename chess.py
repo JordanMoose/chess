@@ -57,6 +57,7 @@ king_moves = [(0,1), (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1)]
 knight_moves = [(1,2), (2,1), (2,-1), (1,-2), (-1,-2), (-2,-1), (-2,1), (-1,2)]
 pawn_moves = [(0,1)]
 
+
 class Player(object):
 
     def __init__(self, color, turn):
@@ -68,19 +69,27 @@ class Player(object):
 
 class Piece(object):
 
-    def __init__(self, color, name, img, x_pos, y_pos, movement):
+    def __init__(self, color, name, img, x_pos, y_pos):
         self.color = color
         self.name = name
         self.img = img
         self.x_pos = x_pos
         self.y_pos = y_pos
-        # the movement attribute is a list of two-value tuples that stores the possible x and y moves for a piece
-        self.movement = movement
 
     def __repr__(self):
         return self.name
 
-class Pawn(Piece):
+
+# pieces that can only move a finite number of spaces each turn
+class Finite(Piece):
+
+    def __init__(self, color, name, img, x_pos, y_pos, movement):
+        super().__init__(color, name, img, x_pos, y_pos)
+        # the movement attribute is a list of two-value tuples that stores the possible x and y moves for a piece
+        self.movement = movement
+
+
+class Pawn(Finite):
 
     def __init__(self, color, img, x_pos, y_pos):
         super().__init__(color, "pawn", img, x_pos, y_pos, pawn_moves)
@@ -92,7 +101,7 @@ class Pawn(Piece):
 
 white = Player("white", True)
 black = Player("black", False)
-w_king = Piece("white", "king", w_king_img, 5, 1, king_moves)
+w_king = Finite("white", "king", w_king_img, 5, 1, king_moves)
 
 ############
 # Gameplay #
