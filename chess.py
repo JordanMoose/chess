@@ -128,7 +128,7 @@ class Piece(object):
 
     def valid_move(self, space):
         """ Check if the move to SPACE is a valid move for this piece. """
-        if space.x
+        return (space.x - self.space.x, space.y - self.space.y) in self.movement
 
     def __repr__(self):
         return '{0} {1}'.format(self.player.color, self.name)
