@@ -104,6 +104,7 @@ class Piece(object):
         # the space attribute is either a Space object or None (if the piece has been captured)
         self.space = Space(x_pos, y_pos)
         self.space.piece = self
+        self.movement = None
         self.captured = False
 
     def move(self, space):
@@ -117,6 +118,10 @@ class Piece(object):
         opponent.space = None
         opponent.captured = True
         opponent.player.pieces_left -= opponent.name
+
+    def valid_move(self, space):
+        """ Check if the move to SPACE is a valid move for this piece. """
+
 
     def __repr__(self):
         return '{0} {1}'.format(self.player.color, self.name)
