@@ -75,6 +75,8 @@ class Player(object):
         self.opponent = None
         self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
                             "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
+        # is this player's king checked?
+        self.check = False
 
     def take_turn(self, piece, space):
         """ The player takes their turn, moving PIECE to SPACE and/or capturing an opposing piece if possible. """
@@ -151,6 +153,8 @@ class King(Finite):
 
     def __init__(self, player, name, img, x_pos, y_pos):
         super().__init__(player, name, img, x_pos, y_pos, king_moves)
+        # is this king checked?
+        self.check = False
 
 
 class Pawn(Finite):
