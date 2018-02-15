@@ -226,10 +226,23 @@ class Rook(Piece):
         vertical = space.x == self.space.x
         horizontal = space.y == self.space.y
         assert vertical or horizontal, "A rook can't move this way."
+        # check if there's a piece in the line of movement
         if vertical:
             super().valid_vertical(space)
         elif horizontal:
             super().valid_vertical(space)
+
+
+class Bishop(Piece):
+    """ Bishops can move unlimited spaces diagonally in any direction. """
+
+    def valid_move(self, space):
+        """ Assert that the move to SPACE is a diagonal move and that there's no piece in the way. """
+        super().valid_move(space)
+        diagonal = space.x - self.space.x == space.y - self.space.y
+        assert diagonal, "A bishop can't move this way."
+        # check if there's a piece in the line of movement
+        super().valid_diagonal(space)
 
 
 class Pawn(Finite):
