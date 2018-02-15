@@ -181,6 +181,25 @@ class Queen(Piece):
         horizontal = space.y == self.space.y
         diagonal = space.x - self.space.x == space.y - self.space.y
         assert vertical or horizontal or diagonal, "A queen can't move this way."
+        if vertical:
+            start = max(self.space.y, space.y)
+            stop = min(self.space.y, space.y)
+            for y in range(start, stop):
+                assert not board[self.space.x][y].piece, "There's a piece in the way."
+        elif horizontal:
+            start = max(self.space.x, space.x)
+            stop = min(self.space.x, space.x)
+            for x in range(start, stop):
+                assert not board[x][self.space.y].piece, "There's a piece in the way."
+        elif diagonal:
+            x = min(self.space.x, space.x)
+            y = min(self.space.y, space.y)
+            x_stop = max(self.space.x, space.x)
+            y_stop = max(self.space.y, space.y)
+            while x != x_stop and y != y_stop:
+                assert not board[x][y].piece, "There's a piece in the way."
+                x += 1
+                y += 1
 
 
 class Pawn(Finite):
