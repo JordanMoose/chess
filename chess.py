@@ -245,6 +245,14 @@ class Bishop(Piece):
         super().valid_diagonal(space)
 
 
+class Knight(Finite):
+    """ Knights can move one space either vertically or horizontally and two spaces in the other direction.
+        They can also jump over other pieces. """
+
+    def __init__(self, player, name, img, x_pos, y_pos):
+        super().__init__(player, name, img, x_pos, y_pos, knight_moves)
+
+
 class Pawn(Finite):
     """ The pawn is the most unique character in chess, having different mechanics for capturing and moving
         and having the ability to move twice on its first move. """
