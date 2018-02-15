@@ -103,6 +103,15 @@ class Space(object):
         return '{0}{1}'.format(chr(self.x + 96), self.y)
 
 
+# create a board such that board[x][y] = Space(x, y)
+board = []
+for x in range(1, dimensions[0] + 1):
+    row = []
+    for y in range(1, dimensions[0] + 1):
+        row[y] = Space(x, y)
+    board[x] = row
+
+
 class Piece(object):
     """ Pieces move to different spaces and capture opposing pieces. """
 
@@ -166,7 +175,7 @@ class Queen(Piece):
     """ Queens can move unlimited spaces vertically, horizontally, or diagonally in any direction. """
 
     def valid_move(self, space):
-        """ Check if the move to SPACE is a valid move for this piece. """
+        """ Check if the move to SPACE is a vertical, horizontal, or diagonal move. """
         super().valid_move(space)
         vertical = space.x == self.space.x
         horizontal = space.y == self.space.y
