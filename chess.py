@@ -113,7 +113,6 @@ class Piece(object):
         # the space attribute is either a Space object or None (if the piece has been captured)
         self.space = Space(x_pos, y_pos)
         self.space.piece = self
-        self.movement = None
         self.captured = False
 
     def move(self, space):
@@ -130,7 +129,6 @@ class Piece(object):
 
     def valid_move(self, space):
         """ Check if the move to SPACE is a valid move for this piece. """
-        assert (space.x - self.space.x, space.y - self.space.y) in self.movement, "not in range of movements"
         friendly = space.piece and space.piece.player == self.player
         assert not friendly, "friendly piece in that space"
         # any space in line of movement has a piece (except knight)
@@ -146,6 +144,13 @@ class Finite(Piece):
         super().__init__(player, name, img, x_pos, y_pos)
         # the movement attribute is a list of two-value tuples that stores the possible x and y moves for a piece
         self.movement = movement
+
+    def valid_move(self, space):
+        """ Check if the move to SPACE is a valid move for this piece.
+        Finites can check if the move is in their movement attribute. """
+        super().valid_move(space)
+        assert (space.x - self.space.x, space.y - self.space.y) in self.movement,\
+            "A {0} can't move this way.".format(self.name)
 
 
 class King(Finite):
@@ -166,7 +171,7 @@ class Queen(Piece):
         vertical = space.x == self.space.x
         horizontal = space.y == self.space.y
         diagonal = space.x - self.space.x == space.y - self.space.y
-        assert vertical or horizontal or diagonal
+        assert vertical or horizontal or diagonal, "A queen can't move this way."
 
 
 class Pawn(Finite):
