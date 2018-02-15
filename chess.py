@@ -137,9 +137,35 @@ class Piece(object):
         opponent.player.pieces_left -= opponent.name
 
     def valid_move(self, space):
-        """ Check if the move to SPACE is a valid move for this piece. """
+        """ Assert that the move to SPACE is a valid move for this piece.
+            All pieces share that they can't move to a space that is inhabited by a friendly piece. """
         friendly = space.piece and space.piece.player == self.player
         assert not friendly, "There's a friendly piece in that space."
+
+    def valid_vertical(self, space):
+        """ Assert that the vertical move to SPACE is not obstructed by another piece. """
+        start = min(self.space.y, space.y) + 1  # don't want to check the current space or target space
+        stop = max(self.space.y, space.y)
+        for y in range(start, stop):
+            assert not board[self.space.x][y].piece, "There's a piece in the way."
+
+    def valid_diagonal(self, space):
+        """ Assert that the diagonal move to SPACE is not obstructed by another piece. """
+        x = min(self.space.x, space.x) + 1  # don't want to check the current space or target space
+        y = min(self.space.y, space.y) + 1
+        x_stop = max(self.space.x, space.x)
+        y_stop = max(self.space.y, space.y)
+        while x != x_stop and y != y_stop:
+            assert not board[x][y].piece, "There's a piece in the way."
+            x += 1
+            y += 1
+
+    def valid_horizontal(self, space):
+        """ Assert that the horizontal move to SPACE is not obstructed by another piece. """
+        start = min(self.space.x, space.x) + 1  # don't want to check the current space or target space
+        stop = max(self.space.x, space.x)
+        for x in range(start, stop):
+            assert not board[x][self.space.y].piece, "There's a piece in the way."
 
     def __repr__(self):
         return '{0} {1}'.format(self.player.color, self.name)
@@ -183,24 +209,11 @@ class Queen(Piece):
         assert vertical or horizontal or diagonal, "A queen can't move this way."
         # check if there's a piece in the line of movement
         if vertical:
-            start = min(self.space.y, space.y) + 1 # don't want to check the current space or target space
-            stop = max(self.space.y, space.y)
-            for y in range(start, stop):
-                assert not board[self.space.x][y].piece, "There's a piece in the way."
+            super().valid_vertical(space)
         elif horizontal:
-            start = min(self.space.x, space.x) + 1
-            stop = max(self.space.x, space.x)
-            for x in range(start, stop):
-                assert not board[x][self.space.y].piece, "There's a piece in the way."
+            super().valid_horizontal(space)
         elif diagonal:
-            x = min(self.space.x, space.x) + 1
-            y = min(self.space.y, space.y) + 1
-            x_stop = max(self.space.x, space.x)
-            y_stop = max(self.space.y, space.y)
-            while x != x_stop and y != y_stop:
-                assert not board[x][y].piece, "There's a piece in the way."
-                x += 1
-                y += 1
+            super().valid_diagonal(space)
 
 
 class Rook(Piece):
@@ -214,15 +227,9 @@ class Rook(Piece):
         horizontal = space.y == self.space.y
         assert vertical or horizontal, "A rook can't move this way."
         if vertical:
-            start = min(self.space.y, space.y) + 1
-            stop = max(self.space.y, space.y)
-            for y in range(start, stop):
-                assert not board[self.space.x][y].piece, "There's a piece in the way."
+            super().valid_vertical(space)
         elif horizontal:
-            start = min(self.space.x, space.x) + 1
-            stop = max(self.space.x, space.x)
-            for x in range(start, stop):
-                assert not board[x][self.space.y].piece, "There's a piece in the way."
+            super().valid_vertical(space)
 
 
 class Pawn(Finite):
