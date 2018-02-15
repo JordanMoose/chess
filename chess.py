@@ -149,12 +149,16 @@ class Finite(Piece):
 
 
 class King(Finite):
-    """ Kings can move one space straight or diagonally in any direction. """
+    """ Kings can move one space vertically, horizontally, or diagonally in any direction. """
 
     def __init__(self, player, name, img, x_pos, y_pos):
         super().__init__(player, name, img, x_pos, y_pos, king_moves)
         # is this king checked?
         self.check = False
+
+
+class Queen(Piece):
+    """ Queens can move unlimited spaces vertically, horizontally, or diagonally in any direction. """
 
 
 class Pawn(Finite):
