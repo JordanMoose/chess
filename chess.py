@@ -139,8 +139,7 @@ class Piece(object):
     def valid_move(self, space):
         """ Check if the move to SPACE is a valid move for this piece. """
         friendly = space.piece and space.piece.player == self.player
-        assert not friendly, "friendly piece in that space"
-        # any space in line of movement has a piece (except knight)
+        assert not friendly, "There's a friendly piece in that space."
 
     def __repr__(self):
         return '{0} {1}'.format(self.player.color, self.name)
@@ -155,8 +154,8 @@ class Finite(Piece):
         self.movement = movement
 
     def valid_move(self, space):
-        """ Check if the move to SPACE is a valid move for this piece.
-        Finites can check if the move is in their movement attribute. """
+        """ Assert that the move to SPACE is a valid move for this piece.
+            Finites can check if the move is in their movement attribute. """
         super().valid_move(space)
         assert (space.x - self.space.x, space.y - self.space.y) in self.movement,\
             "A {0} can't move this way.".format(self.name)
@@ -175,25 +174,27 @@ class Queen(Piece):
     """ Queens can move unlimited spaces vertically, horizontally, or diagonally in any direction. """
 
     def valid_move(self, space):
-        """ Check if the move to SPACE is a vertical, horizontal, or diagonal move. """
+        """ Assert that the move to SPACE is a vertical, horizontal, or diagonal move
+            and that there's no piece in the way. """
         super().valid_move(space)
         vertical = space.x == self.space.x
         horizontal = space.y == self.space.y
         diagonal = space.x - self.space.x == space.y - self.space.y
         assert vertical or horizontal or diagonal, "A queen can't move this way."
+        # check if there's a piece in the line of movement
         if vertical:
-            start = max(self.space.y, space.y)
-            stop = min(self.space.y, space.y)
+            start = min(self.space.y, space.y) + 1 # don't want to check the current space or target space
+            stop = max(self.space.y, space.y)
             for y in range(start, stop):
                 assert not board[self.space.x][y].piece, "There's a piece in the way."
         elif horizontal:
-            start = max(self.space.x, space.x)
-            stop = min(self.space.x, space.x)
+            start = min(self.space.x, space.x) + 1
+            stop = max(self.space.x, space.x)
             for x in range(start, stop):
                 assert not board[x][self.space.y].piece, "There's a piece in the way."
         elif diagonal:
-            x = min(self.space.x, space.x)
-            y = min(self.space.y, space.y)
+            x = min(self.space.x, space.x) + 1
+            y = min(self.space.y, space.y) + 1
             x_stop = max(self.space.x, space.x)
             y_stop = max(self.space.y, space.y)
             while x != x_stop and y != y_stop:
@@ -202,9 +203,31 @@ class Queen(Piece):
                 y += 1
 
 
+class Rook(Piece):
+    """ Rooks can move unlimited spaces vertically or horizontally in any direction. """
+
+    def valid_move(self, space):
+        """ Assert that the move to SPACE is a vertical or horizontal move
+            and that there's no piece in the way. """
+        super().valid_move(space)
+        vertical = space.x == self.space.x
+        horizontal = space.y == self.space.y
+        assert vertical or horizontal, "A rook can't move this way."
+        if vertical:
+            start = min(self.space.y, space.y) + 1
+            stop = max(self.space.y, space.y)
+            for y in range(start, stop):
+                assert not board[self.space.x][y].piece, "There's a piece in the way."
+        elif horizontal:
+            start = min(self.space.x, space.x) + 1
+            stop = max(self.space.x, space.x)
+            for x in range(start, stop):
+                assert not board[x][self.space.y].piece, "There's a piece in the way."
+
+
 class Pawn(Finite):
     """ The pawn is the most unique character in chess, having different mechanics for capturing and moving
-    and being able to move twice on its first move. """
+        and having the ability to move twice on its first move. """
 
     def __init__(self, player, img, x_pos, y_pos, movement):
         super().__init__(player, "pawn", img, x_pos, y_pos, movement)
