@@ -91,7 +91,7 @@ class Player(object):
 
 
 class Space(object):
-    """ A space on the board. It may be inhabited by a Piece. """
+    """ A space on the board. It may be inhabited by a Piece. Spaces are 1-indexed. """
 
     def __init__(self, x, y):
         self.x = x
@@ -159,6 +159,14 @@ class King(Finite):
 
 class Queen(Piece):
     """ Queens can move unlimited spaces vertically, horizontally, or diagonally in any direction. """
+
+    def valid_move(self, space):
+        """ Check if the move to SPACE is a valid move for this piece. """
+        super().valid_move(space)
+        vertical = space.x == self.space.x
+        horizontal = space.y == self.space.y
+        diagonal = space.x - self.space.x == space.y - self.space.y
+        assert vertical or horizontal or diagonal
 
 
 class Pawn(Finite):
