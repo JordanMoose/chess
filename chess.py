@@ -19,6 +19,9 @@ pink = (225,105,180)
 skyblue = (100,210,255)
 brown = (160,120,60)
 
+grid_font = 'Avenir Next Bold'
+display_font = 'Avenir Next Regular'
+
 # set screen size
 screen = pygame.display.set_mode(scr_size)
 # set screen name
@@ -326,10 +329,19 @@ def background():
     board = pygame.image.load('data/board.jpg').convert_alpha()
     board = pygame.transform.rotozoom(board, 0, (scr_height * 7 / 8) / board.get_rect().size[1])
 
+    # write the numbers and letters at the edge of the board
+
     return board
 
 
 background = background()
+
+
+def write(surface, msg, pos, face=display_font, size=scr_height // 28):
+    """ Write MSG on SURFACE at position POS. """
+    font = pygame.font.SysFont(face, size)
+    text = font.render(msg, True, black).convert_alpha()
+    surface.blit(text, pos)
 
 
 ############
