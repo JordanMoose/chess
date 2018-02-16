@@ -73,8 +73,7 @@ class Player(object):
         # is it currently this player's turn?
         self.turn = turn
         self.opponent = None
-        self.pieces_left = ["king", "queen", "rook", "rook", "bishop", "bishop", "knight", "knight",
-                            "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn", "pawn"]
+        self.pieces_left = None
         # is this player's king checked?
         self.check = False
 
@@ -137,7 +136,7 @@ class Piece(object):
         """ Capture the opposing piece OPPONENT, removing it from its space and the opposing player's pieces_left. """
         opponent.space = None
         opponent.captured = True
-        opponent.player.pieces_left -= opponent.name
+        opponent.player.pieces_left -= opponent
 
     def valid_move(self, space):
         """ Assert that the move to SPACE is a valid move for this piece.
