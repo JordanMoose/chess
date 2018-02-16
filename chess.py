@@ -290,6 +290,30 @@ b = Player("black", False)
 w.opponent = b
 b.opponent = w
 
+w_king = King(w, "king", w_king_img, 5, 1)
+w_queen = Queen(w, "queen", w_queen_img, 4, 1)
+w_l_rook = Rook(w, "left rook", w_rook_img, 1, 1)
+w_r_rook = Rook(w, "right rook", w_rook_img, 8, 1)
+w_l_bishop = Bishop(w, "left bishop", w_bishop_img, 3, 1)
+w_r_bishop = Bishop(w, "right bishop", w_bishop_img, 6, 1)
+w_l_knight = Knight(w, "left knight", w_knight_img, 2, 1)
+w_r_knight = Knight(w, "left knight", w_knight_img, 7, 1)
+w_pawns = []
+for x in range(1, 9):
+    w_pawns += Pawn(w, "pawn {0}".format(x), w_pawn_img, x, 2)
+
+b_king = King(b, "king", b_king_img, 5, 8)
+b_queen = Queen(b, "queen", b_queen_img, 4, 8)
+b_l_rook = Rook(b, "left rook", b_rook_img, 1, 8)
+b_r_rook = Rook(b, "right rook", b_rook_img, 8, 8)
+b_l_bishop = Bishop(b, "left bishop", b_bishop_img, 3, 8)
+b_r_bishop = Bishop(b, "right bishop", b_bishop_img, 6, 8)
+b_l_knight = Knight(b, "left knight", b_knight_img, 2, 8)
+b_r_knight = Knight(b, "left knight", b_knight_img, 7, 8)
+b_pawns = []
+for x in range(1, 9):
+    b_pawns += Pawn(b, "pawn {0}".format(x), b_pawn_img, x, 7)
+
 ############
 # Gameplay #
 ############
