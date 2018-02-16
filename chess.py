@@ -302,6 +302,8 @@ w_r_knight = Knight(w, "left knight", w_knight_img, 7, 1)
 w_pawns = []
 for x in range(1, 9):
     w_pawns.append(Pawn(w, "pawn {0}".format(x), w_pawn_img, x, 2, w_pawn_moves))
+w.pieces = [w_king, w_queen, w_l_rook, w_r_rook, w_l_bishop, w_r_bishop, w_l_knight, w_r_knight]
+w.pawns = w_pawns
 
 b_king = King(b, "king", b_king_img, 5, 8)
 b_queen = Queen(b, "queen", b_queen_img, 4, 8)
@@ -314,6 +316,8 @@ b_r_knight = Knight(b, "left knight", b_knight_img, 7, 8)
 b_pawns = []
 for x in range(1, 9):
     b_pawns.append(Pawn(b, "pawn {0}".format(x), b_pawn_img, x, 7, b_pawn_moves))
+b.pieces = [b_king, b_queen, b_l_rook, b_r_rook, b_l_bishop, b_r_bishop, b_l_knight, b_r_knight]
+b.pawns = b_pawns
 
 ############
 # Gameplay #
