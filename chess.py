@@ -84,6 +84,8 @@ class Player(object):
         # check if this is a valid move
         piece.valid_move(space)
         piece.move(space)
+        self.turn = False
+        self.opponent.turn = True
 
     def __str__(self):
         return self.color
