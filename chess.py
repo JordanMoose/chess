@@ -74,6 +74,7 @@ class Player(object):
         self.turn = turn
         self.opponent = None
         self.pieces = None
+        self.pawns = None
         # is this player's king checked?
         self.check = False
 
