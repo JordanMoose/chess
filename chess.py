@@ -5,7 +5,7 @@ pygame.init()
 # Initialization #
 ##################
 
-scr_width = 800
+scr_width = 1000
 scr_height = 600
 scr_size = (scr_width,scr_height)
 scr_center = (scr_width / 2, scr_height / 2)
@@ -319,9 +319,18 @@ for x in range(1, 9):
 b.pieces = [b_king, b_queen, b_l_rook, b_r_rook, b_l_bishop, b_r_bishop, b_l_knight, b_r_knight]
 b.pawns = b_pawns
 
-def board():
+
+def background():
     """ Returns a visual representation of the board. """
-    board = pygame.Surface(scr_width * 0.5, scr_height * 0.75)
+    # the board itself (the screen contains other sections)
+    board = pygame.Surface((scr_width * 3 // 4, scr_height * 7 // 8))
+    board.fill(white)
+    pygame.draw.line(board, black, (0,0), (0, board.get_height()))
+
+    return board.convert_alpha()
+
+
+background = background()
 
 
 ############
@@ -329,6 +338,9 @@ def board():
 ############
 
 while running:
+
+    # blank the screen
+    screen.blit(background, (0,0))
 
     # while there is no winner
     if winner == 0:
@@ -341,3 +353,5 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+
+    pygame.display.flip()
