@@ -326,7 +326,7 @@ b.pawns = b_pawns
 while running:
 
     # while there is no winner
-    if winner == 0:
+    while winner == 0:
 
         # get user input
         for event in pygame.event.get():
