@@ -278,7 +278,8 @@ class Pawn(Finite):
 
     def valid_move(self, space):
         """ A pawn's valid moves depend on whether or not it is capturing another piece. """
-        if space.piece and space.piece.player == self.player.opponent:
+        if space.piece and space.piece.player == self.player.opponent and\
+          not (space.x - self.space.x, space.y - self.space.y) in self.capture_moves:
             assert (space.x - self.space.x, space.y - self.space.y) in self.capture_moves, "A pawn can't move this way."
         super().valid_move(space)
 
