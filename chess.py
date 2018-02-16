@@ -207,7 +207,7 @@ class Queen(Piece):
         super().valid_move(space)
         vertical = space.x == self.space.x
         horizontal = space.y == self.space.y
-        diagonal = space.x - self.space.x == space.y - self.space.y
+        diagonal = abs(space.x - self.space.x) == abs(space.y - self.space.y)
         assert vertical or horizontal or diagonal, "A queen can't move this way."
         # check if there's a piece in the line of movement
         if vertical:
@@ -241,7 +241,7 @@ class Bishop(Piece):
     def valid_move(self, space):
         """ Assert that the move to SPACE is a diagonal move and that there's no piece in the way. """
         super().valid_move(space)
-        diagonal = space.x - self.space.x == space.y - self.space.y
+        diagonal = abs(space.x - self.space.x) == abs(space.y - self.space.y)
         assert diagonal, "A bishop can't move this way."
         # check if there's a piece in the line of movement
         super().valid_diagonal(space)
