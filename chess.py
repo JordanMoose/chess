@@ -5,8 +5,8 @@ pygame.init()
 # Initialization #
 ##################
 
-scr_width = 1000
-scr_height = 600
+scr_width = 900
+scr_height = 700
 scr_size = (scr_width,scr_height)
 scr_center = (scr_width / 2, scr_height / 2)
 white = (255,255,255)
@@ -324,7 +324,7 @@ def background():
     """ Returns the gamescreen visual surface. """
     # the board itself (the screen contains other sections)
     board = pygame.image.load('data/board.jpg').convert_alpha()
-    board = pygame.transform.rotozoom(board, 0, scr_height * 7 // 8)
+    board = pygame.transform.rotozoom(board, 0, (scr_height * 7 / 8) / board.get_rect().size[1])
 
     return board
 
