@@ -81,12 +81,11 @@ class Player(object):
     def take_turn(self, piece, space):
         """ The player takes their turn, moving PIECE to SPACE and/or capturing an opposing piece if possible. """
         assert piece.player == self, "This is not your piece."
+        # check if this is a valid move
         piece.valid_move(space)
-        if space.piece:
-            piece.capture(space.piece)
         piece.move(space)
 
-    def __repr__(self):
+    def __str__(self):
         return self.color
 
 
@@ -98,7 +97,7 @@ class Space(object):
         self.y = y
         self.piece = None
 
-    def __repr__(self):
+    def __str__(self):
         """ A space is represented by a letter (A-H) and a number (1-8). """
         return '{0}{1}'.format(chr(self.x + 96), self.y)
 
@@ -126,6 +125,8 @@ class Piece(object):
 
     def move(self, space):
         """ Move the piece to the given SPACE. """
+        if space.piece:
+            self.capture(space.piece)
         self.space.piece = None
         self.space = space
         space.piece = self
@@ -149,6 +150,13 @@ class Piece(object):
         for y in range(start, stop):
             assert not board[self.space.x][y].piece, "There's a piece in the way."
 
+    def valid_horizontal(self, space):
+        """ Assert that the horizontal move to SPACE is not obstructed by another piece. """
+        start = min(self.space.x, space.x) + 1  # don't want to check the current space or target space
+        stop = max(self.space.x, space.x)
+        for x in range(start, stop):
+            assert not board[x][self.space.y].piece, "There's a piece in the way."
+
     def valid_diagonal(self, space):
         """ Assert that the diagonal move to SPACE is not obstructed by another piece. """
         x = min(self.space.x, space.x) + 1  # don't want to check the current space or target space
@@ -160,14 +168,7 @@ class Piece(object):
             x += 1
             y += 1
 
-    def valid_horizontal(self, space):
-        """ Assert that the horizontal move to SPACE is not obstructed by another piece. """
-        start = min(self.space.x, space.x) + 1  # don't want to check the current space or target space
-        stop = max(self.space.x, space.x)
-        for x in range(start, stop):
-            assert not board[x][self.space.y].piece, "There's a piece in the way."
-
-    def __repr__(self):
+    def __str__(self):
         return '{0} {1}'.format(self.player.color, self.name)
 
 
@@ -281,10 +282,10 @@ class Pawn(Finite):
         super().valid_move(space)
 
 
-white = Player("white", True)
-black = Player("black", False)
-white.opponent = black
-black.opponent = white
+w = Player("white", True)
+b = Player("black", False)
+w.opponent = b
+b.opponent = w
 
 ############
 # Gameplay #
