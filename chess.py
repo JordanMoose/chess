@@ -73,7 +73,7 @@ class Player(object):
         # is it currently this player's turn?
         self.turn = turn
         self.opponent = None
-        self.pieces_left = None
+        self.pieces = None
         # is this player's king checked?
         self.check = False
 
@@ -133,10 +133,10 @@ class Piece(object):
         space.piece = self
 
     def capture(self, opponent):
-        """ Capture the opposing piece OPPONENT, removing it from its space and the opposing player's pieces_left. """
+        """ Capture the opposing piece OPPONENT, removing it from its space and the opposing player's pieces. """
         opponent.space = None
         opponent.captured = True
-        opponent.player.pieces_left -= opponent
+        opponent.player.pieces -= opponent
 
     def valid_move(self, space):
         """ Assert that the move to SPACE is a valid move for this piece.
@@ -273,8 +273,9 @@ class Pawn(Finite):
 
     def move(self, space):
         super().move(space)
-        self.moved = True
-        self.movement -= self.first_moves
+        if not self.moved:
+            self.movement -= self.first_moves
+            self.moved = True
 
     def valid_move(self, space):
         """ A pawn's valid moves depend on whether or not it is capturing another piece. """
