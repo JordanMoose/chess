@@ -5,7 +5,7 @@ pygame.init()
 # Initialization #
 ##################
 
-scr_width = 600
+scr_width = 800
 scr_height = 600
 scr_size = (scr_width,scr_height)
 scr_center = (scr_width / 2, scr_height / 2)
@@ -319,6 +319,11 @@ for x in range(1, 9):
 b.pieces = [b_king, b_queen, b_l_rook, b_r_rook, b_l_bishop, b_r_bishop, b_l_knight, b_r_knight]
 b.pawns = b_pawns
 
+def board():
+    """ Returns a visual representation of the board. """
+    board = pygame.Surface(scr_width * 0.5, scr_height * 0.75)
+
+
 ############
 # Gameplay #
 ############
@@ -326,7 +331,7 @@ b.pawns = b_pawns
 while running:
 
     # while there is no winner
-    while winner == 0:
+    if winner == 0:
 
         # get user input
         for event in pygame.event.get():
