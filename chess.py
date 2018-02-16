@@ -321,19 +321,12 @@ b.pawns = b_pawns
 
 
 def background():
-    """ Returns a visual representation of the board. """
+    """ Returns the gamescreen visual surface. """
     # the board itself (the screen contains other sections)
-    board = pygame.Surface((scr_width * 3 // 4, scr_height))
-    board.fill(white)
-    # where the grid lines start
-    gs = 50
-    # where the grid lines end (only one value for both x and y so the grid can be a perfect square)
-    ge = board.get_height() * 9 // 10
-    # grid line increments
-    dg = (ge - gs) // 9
-    pygame.draw.line(board, black, (gs, gs), (gs, ge))
+    board = pygame.image.load('data/board.jpg').convert_alpha()
+    board = pygame.transform.rotozoom(board, 0, scr_height * 7 // 8)
 
-    return board.convert_alpha()
+    return board
 
 
 background = background()
