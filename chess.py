@@ -104,9 +104,9 @@ class Space(object):
 
 
 # create a board such that board[x][y] = Space(x, y)
-board = []
+board = [None, None, None, None, None, None, None, None, None]
 for x in range(1, dimensions[0] + 1):
-    row = []
+    row = [None, None, None, None, None, None, None, None, None]
     for y in range(1, dimensions[0] + 1):
         row[y] = Space(x, y)
     board[x] = row
@@ -259,9 +259,9 @@ class Pawn(Finite):
     """ The pawn is the most unique character in chess, having different mechanics for capturing and moving
         and having the ability to move twice on its first move. """
 
-    def __init__(self, player, img, x_pos, y_pos, movement):
-        super().__init__(player, "pawn", img, x_pos, y_pos, movement)
-        if player.name == "white":
+    def __init__(self, player, name, img, x_pos, y_pos, movement):
+        super().__init__(player, name, img, x_pos, y_pos, movement)
+        if player.color == "white":
             self.capture_moves = w_pawn_capture_moves
             self.first_moves = w_pawn_first_moves
         else:
@@ -300,7 +300,7 @@ w_l_knight = Knight(w, "left knight", w_knight_img, 2, 1)
 w_r_knight = Knight(w, "left knight", w_knight_img, 7, 1)
 w_pawns = []
 for x in range(1, 9):
-    w_pawns += Pawn(w, "pawn {0}".format(x), w_pawn_img, x, 2)
+    w_pawns.append(Pawn(w, "pawn {0}".format(x), w_pawn_img, x, 2, w_pawn_moves))
 
 b_king = King(b, "king", b_king_img, 5, 8)
 b_queen = Queen(b, "queen", b_queen_img, 4, 8)
@@ -312,7 +312,7 @@ b_l_knight = Knight(b, "left knight", b_knight_img, 2, 8)
 b_r_knight = Knight(b, "left knight", b_knight_img, 7, 8)
 b_pawns = []
 for x in range(1, 9):
-    b_pawns += Pawn(b, "pawn {0}".format(x), b_pawn_img, x, 7)
+    b_pawns.append(Pawn(b, "pawn {0}".format(x), b_pawn_img, x, 7, b_pawn_moves))
 
 ############
 # Gameplay #
