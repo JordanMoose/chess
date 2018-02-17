@@ -18,9 +18,10 @@ blue = (0,0,255)
 pink = (225,105,180)
 skyblue = (100,210,255)
 brown = (160,120,60)
+cream = (235, 208, 129)
 
-grid_font = 'Avenir Next Bold'
-display_font = 'Avenir Next Regular'
+grid_font = 'Charlemagne Std'
+display_font = 'Cochin'
 
 # set screen size
 screen = pygame.display.set_mode(scr_size)
@@ -104,7 +105,7 @@ class Space(object):
 
     def __str__(self):
         """ A space is represented by a letter (A-H) and a number (1-8). """
-        return '{0}{1}'.format(chr(self.x + 96), self.y)
+        return '{0}{1}'.format(chr(self.x + 64), self.y)
 
 
 # create a board such that board[x][y] = Space(x, y)
@@ -327,21 +328,36 @@ def background():
     """ Returns the gamescreen visual surface. """
     # the board itself (the screen contains other sections)
     board = pygame.image.load('data/board.jpg').convert_alpha()
-    board = pygame.transform.rotozoom(board, 0, (scr_height * 7 / 8) / board.get_rect().size[1])
+    board_size = board.get_rect().size
+    board_width = board_size[0]
+    board_height = board_size[1]
+    board = pygame.transform.rotozoom(board, 0, (scr_height * 7 / 8) / board_height)
+    board_size = board.get_rect().size
+    board_width = board_size[0]
+    board_height = board_size[1]
 
     # write the numbers and letters at the edge of the board
+    x_start = board_width / 10
+    y_start = board_height / 10
+    y_inc = board_height / 9
+    x_inc = board_height * 0.1085
+    for i in range(1, 9):
+        write(board, str(i), cream, (board_width / 55, y_start + (i - 1) * y_inc), grid_font)
+
+    for i in range(1, 9):
+        write(board, chr(i + 64), cream, (x_start + (i - 1) * x_inc, board_height * 21 / 22), grid_font)
 
     return board
 
 
-background = background()
-
-
-def write(surface, msg, pos, face=display_font, size=scr_height // 28):
+def write(surface, msg, color, pos, face=display_font, size=scr_height // 30):
     """ Write MSG on SURFACE at position POS. """
     font = pygame.font.SysFont(face, size)
-    text = font.render(msg, True, black).convert_alpha()
+    text = font.render(msg, True, color).convert_alpha()
     surface.blit(text, pos)
+
+
+background = background()
 
 
 ############
